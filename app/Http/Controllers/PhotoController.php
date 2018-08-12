@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\ImagesRequests;
+// use App\Http\Request;
+use App\Http\Requests\ImagesRequest;
 
 class PhotoController extends Controller
 {
@@ -15,11 +15,11 @@ class PhotoController extends Controller
 
     }
 
-    public function postForm(ImagesRequests $request){
+    public function postForm(ImagesRequest $request){
 
         $image = $request->file('image');
 
-        if($image->isValide()){
+        if($image->isValid()){
 
               $chemin = config('images.path');
 
@@ -27,7 +27,7 @@ class PhotoController extends Controller
 
               do {
                 $nom = str_random(10) . '.' . $extension;
-              } while (file_exists($chemin,$nom));
+              } while(file_exists($chemin . '/' . $nom));
 
               if ($image->move($chemin,$nom)) {
                 return view('photo_ok');
